@@ -17,24 +17,20 @@ async function FindFolder() {
                 </div>
             </div>
             `).join('');
-
-
+        
             songs.forEach(async (e) => {
-                try {
-                    let anc = await fetch(`/songs/${e}/${e}.json`);
-                    let bcd = await anc.json();
-                    document.getElementById(`card-img-${e}`).src = bcd.img;
-                } catch (error) {
-                    console.error(`Failed to load JSON for ${e}`, error);
-                }
+            let anc = await fetch('api/songs/${e}/${e}.json');
+            let bcd = await anc.json();
+
+            document.getElementById(card-img-${e}).src = bcd.img
+        })
+
+        document.querySelectorAll('.song-card').forEach(card => {
+            card.addEventListener("click", () => {
+                document.getElementById('library-name').textContent = card.dataset.value;
+                loadSongs(card.dataset.value)
             });
-            
-            document.querySelectorAll('.song-card').forEach(card => {
-                card.addEventListener("click", () => {
-                    document.getElementById('library-name').textContent = card.dataset.value;
-                    loadSongs(card.dataset.value);
-                });
-            });
+        });    
 
     } catch (error) {
         console.log("error : " + error)
