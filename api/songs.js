@@ -1,18 +1,19 @@
-const fs = require('fs');
-const path = require('path');
+const fs = require("fs");
+const path = require("path");
 
-export default function handler(req, res) {
-    const songsPath = path.join(process.cwd(), 'songs'); // ← public/songs folder
+module.exports = function handler(req, res) {
+    const songsPath = path.join(process.cwd(), "songs");
 
     fs.readdir(songsPath, { withFileTypes: true }, (err, files) => {
         if (err) {
-            return res.status(500).json({ error: 'Failed to read songs folder' });
+            res.status(500).json({ error: "Failed to read songs folder" });
+            return;
         }
 
         const folders = files
-            .filter(file => file.isDirectory())
+            .filter(f => f.isDirectory())
             .map(dir => dir.name);
 
         res.status(200).json(folders);
     });
-}
+};
