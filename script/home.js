@@ -1,28 +1,12 @@
 const folderCart = document.querySelector('.cart-section')
-let folderList = [];
 
 async function FindFolder() {
     try {
 
-        let response = await fetch(`http://127.0.0.1:5500/songs/`);
-        let htmlText = await response.text();
+        let response = await fetch('/api/songs');  // <-- Calls Express API
+        let songs = await response.json();
 
-        console.log(htmlText)
-
-        let div = document.createElement("div");
-        div.innerHTML = htmlText;
-
-        let links = div.getElementsByTagName("a");
-
-        for (let link of links) {
-            let folderName = link.getAttribute('href')
-            let title = link.getAttribute('title');
-            if (folderName.startsWith("/songs/")) {
-                folderList.push(folderName.replaceAll("%20", " ").replace("/songs/", ""));
-            }
-        }
-
-        folderCart.innerHTML = folderList.map(folder => `
+        folderCart.innerHTML = songs.map(folder => `
             <div data-value="${folder}" class="song-card">
                 <div class="album-art">
                     <img src="" alt="Album Art" id="card-img-${folder}">
@@ -35,19 +19,22 @@ async function FindFolder() {
             `).join('');
 
 
-        folderList.forEach(async (e) => {
-            let anc = await fetch(`http://127.0.0.1:5500/songs/${e}/${e}.json`);
-            let bcd = await anc.json();
-
-            document.getElementById(`card-img-${e}`).src = bcd.img
-        })
-
-        document.querySelectorAll('.song-card').forEach(card => {
-            card.addEventListener("click", () => {
-                document.getElementById('library-name').textContent = card.dataset.value;
-                loadSongs(card.dataset.value)
+            songs.forEach(async (e) => {
+                try {
+                    let anc = await fetch(`/songs/${e}/${e}.json`);
+                    let bcd = await anc.json();
+                    document.getElementById(`card-img-${e}`).src = bcd.img;
+                } catch (error) {
+                    console.error(`Failed to load JSON for ${e}`, error);
+                }
             });
-        });
+            
+            document.querySelectorAll('.song-card').forEach(card => {
+                card.addEventListener("click", () => {
+                    document.getElementById('library-name').textContent = card.dataset.value;
+                    loadSongs(card.dataset.value);
+                });
+            });
 
     } catch (error) {
         console.log("error : " + error)
