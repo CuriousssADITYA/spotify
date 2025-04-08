@@ -3,7 +3,7 @@ const folderCart = document.querySelector('.cart-section')
 async function FindFolder() {
     try {
 
-        let response = await fetch('/api/songs'); // now works on Vercel too
+        let response = await fetch('api/songs'); // now works on Vercel too
         let songs = await response.json();
 
         folderCart.innerHTML = songs.map(folder => `
