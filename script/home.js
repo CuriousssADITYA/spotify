@@ -20,7 +20,7 @@ async function FindFolder() {
         
           songs.forEach(async (e) => {
             try {
-                 let anc = await fetch(`/songs/${e}/${e}.json`);
+                 let anc = await fetch(`api/songs/${e}/${e}.json`);
                 let bcd = await anc.json();
                 document.getElementById(`card-img-${e}`).src = bcd.img;
             } catch (error) {
