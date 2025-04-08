@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 
 export default function handler(req, res) {
-    const songsPath = path.join(process.cwd(), 'public', 'songs'); // ← public/songs folder
+    const songsPath = path.join(process.cwd(), 'songs'); // ← public/songs folder
 
     fs.readdir(songsPath, { withFileTypes: true }, (err, files) => {
         if (err) {
