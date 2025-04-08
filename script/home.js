@@ -27,6 +27,7 @@ async function FindFolder() {
 
         document.querySelectorAll('.song-card').forEach(card => {
             card.addEventListener("click", () => {
+                console.log(card.dataset.value) ;
                 document.getElementById('library-name').textContent = card.dataset.value;
                 loadSongs(card.dataset.value)
             });
