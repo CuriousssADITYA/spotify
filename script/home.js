@@ -50,7 +50,7 @@ let songList = []; // Global array to store songs
 
 async function loadSongs(folder) {
     try {
-        let response = await fetch(`http://127.0.0.1:5500/songs/${folder}`);
+        let response = await fetch(`api/songs/${folder}/`);
         let htmlText = await response.text();
 
         let div = document.createElement("div");
