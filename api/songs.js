@@ -1,8 +1,8 @@
-const fs = require("fs");
-const path = require("path");
+import fs from "fs";
+import path from "path";
 
-module.exports = function handler(req, res) {
-    const songsPath = path.join(process.cwd(), "songs");
+export default function handler(req, res) {
+    const songsPath = path.join(process.cwd(), "public/songs"); // songs should be in /public
 
     fs.readdir(songsPath, { withFileTypes: true }, (err, files) => {
         if (err) {
@@ -16,4 +16,4 @@ module.exports = function handler(req, res) {
 
         res.status(200).json(folders);
     });
-};
+}
